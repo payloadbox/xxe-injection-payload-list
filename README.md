@@ -1,4 +1,4 @@
-### XML External Entity (XXE) Injection
+### XML External Entity (XXE) Injection Payload List
 
 In this section, we'll explain what XML external entity injection is, describe some common examples, explain how to find and exploit various kinds of XXE injection, and summarize how to prevent XXE injection attacks. 
 
